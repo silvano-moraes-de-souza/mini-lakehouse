@@ -65,7 +65,9 @@ def ingest(landing: Path, bronze: Path, day: str) -> Batch:
                 .append_column("_batch_id", pa.array([batch.batch_id] * n))
                 .append_column("_ingested_at", pa.array([now] * n, now.type))
             )
-            target = bronze / table / f"ingest_day={day}" / f"{batch.batch_id}.parquet"
+            # One landed partition can hold several files (DuckDB splits large writes),
+            # so the source file name is part of the target name.
+            target = bronze / table / f"ingest_day={day}" / f"{batch.batch_id}-{src.stem}.parquet"
             target.parent.mkdir(parents=True, exist_ok=True)
             pq.write_table(data, target, compression="zstd")
             batch.files.setdefault(table, []).append(target)

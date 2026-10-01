@@ -119,3 +119,22 @@ def test_cli_sql_reads_the_views(lake, capsys):
     path, _ = lake
     main(["sql", "--lake", str(path), "SELECT count(*) AS n FROM gold.daily_sales"])
     assert "n" in capsys.readouterr().out
+
+
+def test_bronze_keeps_every_file_of_a_partition(source, tmp_path):
+    # Large partitions are written as data_0, data_1, ... by DuckDB. Simulate that
+    # with a second file and check that bronze keeps the rows of both.
+    land = tmp_path / "landing"
+    landing.build(source, land)
+    part = sorted((land / "orders").glob("arrival_day=*"))[5]
+    day = part.name.split("=", 1)[1]
+    (part / "data_1.parquet").write_bytes((part / "data_0.parquet").read_bytes())
+    batch = bronze.ingest(land, tmp_path / "bronze", day)
+    landed = _q(f"SELECT count(*) FROM '{part.as_posix()}/*.parquet'")[0][0]
+    assert len(batch.files["orders"]) == 2
+    assert (
+        _q(f"SELECT count(*) FROM read_parquet({[f.as_posix() for f in batch.files['orders']]})")[
+            0
+        ][0]
+        == landed
+    )
