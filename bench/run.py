@@ -47,6 +47,9 @@ def end_to_end(runs: dict[float, dict], where: str) -> Path:
              "per_day_p95_s": sorted(rep.per_day_s)[int(0.95 * (len(rep.per_day_s) - 1))],
              **r["reconcile"]}))  # fmt: skip
         print(f"e2e scale {scale}: {r['total_s']:.0f} s, reconcile {r['reconcile']}")
+        # A timing of a wrong result is worthless: stop before saving anything.
+        wrong = {k: v for k, v in r["reconcile"].items() if k != "revenue_cents" and v != 0}
+        assert not wrong, f"scale {scale} does not reconcile: {wrong}"
     return save("end_to_end", cases, notes=(
         "Landing build, then every arrival day through bronze and silver one at a time, then "
         f"gold and reconciliation against the ShopFlow source. {where}."))  # fmt: skip

@@ -35,7 +35,7 @@ def _value(case: dict, metric: str) -> float:
 
 
 def _fmt(v: float) -> str:
-    if v >= 1000:
+    if v >= 1000 or (v >= 10 and v.is_integer()):
         return f"{v:,.0f}"
     if v >= 10:
         return f"{v:.1f}"
@@ -82,7 +82,10 @@ def plot(path: Path, metric: str, out: Path | None = None, title: str | None = N
     ax.invert_yaxis()
     ax.set_xlim(0, span * 1.25)
     ax.set_xlabel(f"{axis_name} ({unit})" if unit else axis_name, color=INK_MUTED, fontsize=9)
-    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
+    # Sub-second spans need decimals on the axis, or every tick reads "0".
+    ax.xaxis.set_major_formatter(
+        FuncFormatter(lambda v, _: f"{v:,.0f}" if span >= 10 else f"{v:g}")
+    )
     ax.tick_params(axis="x", colors=INK_MUTED, labelsize=8)
     ax.tick_params(axis="y", length=0)
     ax.grid(axis="x", color=GRID, linewidth=0.8, zorder=0)

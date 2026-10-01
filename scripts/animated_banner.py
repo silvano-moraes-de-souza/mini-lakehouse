@@ -483,11 +483,45 @@ def scene_cdc(a: str) -> str:
     return "".join(out)
 
 
+def scene_lakehouse(a: str) -> str:
+    """Daily files drop into bronze, then move up to silver partitions and gold tables."""
+    layers = [("GOLD", "#e9c46a", 58, "daily_sales · category_monthly"),
+              ("SILVER", "#c0c7d0", 148, "order_month=2025-06 · 2025-07 · 2025-08"),
+              ("BRONZE", "#cd7f32", 238, "ingest_day=… append only")]  # fmt: skip
+    out = []
+    for i, (name, color, y, note) in enumerate(layers):
+        out.append(f'<g class="fade d{3 - i}"><rect x="850" y="{y}" width="380" height="70" rx="12" '
+                   f'fill="{color}" fill-opacity=".10" stroke="{color}" stroke-width="2"/>'
+                   f'<text x="868" y="{y + 28}" class="mono" font-size="14" font-weight="700" fill="{color}">{name}</text>'
+                   f'<text x="868" y="{y + 52}" class="mono" font-size="11" fill="#8b949e">{note}</text></g>')  # fmt: skip
+    for x in (1150, 1190):
+        out.append(f'<line x1="{x}" y1="236" x2="{x}" y2="220" stroke="{a}" stroke-width="2" class="flow"/>'
+                   f'<line x1="{x}" y1="146" x2="{x}" y2="130" stroke="{a}" stroke-width="2" class="flow"/>')  # fmt: skip
+    # Daily files slide into bronze; dots carry rows up to silver and gold.
+    out.append(
+        '<clipPath id="bronzeclip"><rect x="1040" y="240" width="188" height="66"/></clipPath>'
+    )
+    tiles = "".join(
+        f'<rect x="0" y="262" width="16" height="20" rx="3" fill="#cd7f32">'
+        f'<animate attributeName="x" values="1240;1060" dur="2.5s" begin="{i * 0.5:.1f}s" '
+        f'repeatCount="indefinite"/></rect>'
+        for i in range(5)
+    )
+    out.append(f'<g clip-path="url(#bronzeclip)">{tiles}</g>')
+    for x, (y0, y1), color, delay in (
+        (1150, (236, 220), "#c0c7d0", 0.0),
+        (1190, (146, 130), "#e9c46a", 0.8),
+    ):
+        out.append(f'<circle cx="{x}" r="4" fill="{color}"><animate attributeName="cy" '
+                   f'values="{y0};{y1 - 8}" dur="1.2s" begin="{delay}s" repeatCount="indefinite"/></circle>')  # fmt: skip
+    return "".join(out)
+
+
 SCENES = {
     "flow": scene_flow, "dashboard": scene_dashboard, "route": scene_route,
     "resume": scene_resume, "workflow": scene_workflow, "bi": scene_bi, "video": scene_video,
     "site": scene_site, "rows": scene_rows, "star": scene_star, "checks": scene_checks,
-    "terminal": scene_terminal, "days": scene_days, "cdc": scene_cdc,
+    "terminal": scene_terminal, "days": scene_days, "cdc": scene_cdc, "lakehouse": scene_lakehouse,
 }  # fmt: skip
 
 

@@ -1,0 +1,79 @@
+{
+  "name": "end_to_end",
+  "created_at": "2026-10-01T12:22:57+00:00",
+  "git_sha": "6a1983f",
+  "machine": {
+    "os": "Windows 11",
+    "python": "3.11.15",
+    "cpu": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "cores_physical": 6,
+    "cores_logical": 12,
+    "cpu_max_mhz": 2688,
+    "ram_gb": 23.8
+  },
+  "notes": "Landing build, then every arrival day through bronze and silver one at a time, then gold and reconciliation against the ShopFlow source. Local disk, DuckDB 1.5.6.",
+  "cases": [
+    {
+      "label": "scale 1",
+      "params": {
+        "scale": 1
+      },
+      "runs": 1,
+      "wall_s": [
+        181.5794426999928
+      ],
+      "peak_rss_mb": [
+        0.0
+      ],
+      "extra": {
+        "days": 1478,
+        "bronze_rows": 490166,
+        "partitions_written": 3303,
+        "bronze_s": 67.73576469963882,
+        "silver_s": 107.3298987004091,
+        "per_day_median_s": 0.09302580000075977,
+        "per_day_p95_s": 0.21046729999943636,
+        "orders_missing_or_different": 0,
+        "orders_not_in_source": 0,
+        "revenue_diff_cents": 0,
+        "revenue_cents": 3216650551
+      },
+      "median_s": 181.5794426999928,
+      "min_s": 181.5794426999928,
+      "max_s": 181.5794426999928,
+      "stdev_s": 0.0,
+      "median_peak_rss_mb": 0.0
+    },
+    {
+      "label": "scale 10",
+      "params": {
+        "scale": 10
+      },
+      "runs": 1,
+      "wall_s": [
+        480.4072560000059
+      ],
+      "peak_rss_mb": [
+        0.0
+      ],
+      "extra": {
+        "days": 1479,
+        "bronze_rows": 4874648,
+        "partitions_written": 3355,
+        "bronze_s": 127.31862220022595,
+        "silver_s": 337.5801502999675,
+        "per_day_median_s": 0.18829249998088926,
+        "per_day_p95_s": 0.6063010999932885,
+        "orders_missing_or_different": 0,
+        "orders_not_in_source": 0,
+        "revenue_diff_cents": 0,
+        "revenue_cents": 30865720074
+      },
+      "median_s": 480.4072560000059,
+      "min_s": 480.4072560000059,
+      "max_s": 480.4072560000059,
+      "stdev_s": 0.0,
+      "median_peak_rss_mb": 0.0
+    }
+  ]
+}
