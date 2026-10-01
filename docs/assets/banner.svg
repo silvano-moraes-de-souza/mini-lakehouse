@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Mini Lakehouse: Bronze, silver and gold on Parquet and DuckDB, with late data, partition pruning and compaction measured">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1016"/><stop offset="1" stop-color="#111a24"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3fb950"/><stop offset="0.45" stop-color="#f5fbff"/>
+      <stop offset="0.55" stop-color="#f5fbff"/><stop offset="1" stop-color="#3fb950"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-1 0; 1 0" dur="4.5s" repeatCount="indefinite"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#3fb950" stop-opacity="0.30"/><stop offset="1" stop-color="#3fb950" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1b2430" stroke-width="1"/>
+    </pattern>
+    <style>
+      .sans { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; } .mono { font-family: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace; }
+      .pulse { animation: pulse 3s ease-in-out infinite; transform-origin: 1040px 180px; }
+      @keyframes pulse { 0%, 100% { transform: scale(0.92); opacity: .65; } 50% { transform: scale(1.08); opacity: 1; } }
+      .fade { opacity: 0; animation: fade 8s infinite; }
+      @keyframes fade { 0% { opacity: 0; transform: translateY(8px); } 6% { opacity: 1; transform: none; } 88% { opacity: 1; } 96%, 100% { opacity: 0; } }
+      .grow { transform-box: fill-box; transform-origin: bottom; animation: grow 8s ease-out infinite; }
+      @keyframes grow { 0% { transform: scaleY(0); } 18% { transform: scaleY(1); } 88% { transform: scaleY(1); opacity: 1; } 96%, 100% { transform: scaleY(1); opacity: 0; } }
+      .growx { transform-box: fill-box; transform-origin: left; animation: growx 8s ease-out infinite; }
+      @keyframes growx { 0% { transform: scaleX(0); } 18% { transform: scaleX(1); } 88% { transform: scaleX(1); opacity: 1; } 96%, 100% { transform: scaleX(1); opacity: 0; } }
+      .draw { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 8s ease-in-out infinite; }
+      @keyframes draw { 0% { stroke-dashoffset: 1000; } 35% { stroke-dashoffset: 0; } 88% { stroke-dashoffset: 0; opacity: 1; } 96%, 100% { opacity: 0; } }
+      .flow { stroke-dasharray: 6 8; animation: flow 1.4s linear infinite; }
+      @keyframes flow { to { stroke-dashoffset: -28; } }
+      .blink { animation: blink 1s steps(1) infinite; } @keyframes blink { 50% { opacity: 0; } }
+      .d1 { animation-delay: .3s; } .d2 { animation-delay: .6s; } .d3 { animation-delay: .9s; }
+      .d4 { animation-delay: 1.2s; } .d5 { animation-delay: 1.5s; } .d6 { animation-delay: 1.8s; }
+      .d7 { animation-delay: 2.1s; } .d8 { animation-delay: 2.4s; } .d9 { animation-delay: 2.7s; }
+    </style>
+  </defs>
+  <rect width="1280" height="360" fill="url(#bg)"/>
+  <rect width="1280" height="360" fill="url(#grid)" opacity="0.55"/>
+  <circle class="pulse" cx="1040" cy="180" r="175" fill="url(#glow)"/>
+  <rect x="64" y="64" width="6" height="232" rx="3" fill="#3fb950"/>
+  <text x="96" y="96" class="mono" font-size="16" fill="#3fb950" letter-spacing="2">30 DAYS · DAY 04</text>
+  <text x="92" y="167" class="sans" font-size="88" font-weight="800" fill="url(#shine)">Mini Lakehouse</text>
+  <text x="96" y="212" class="sans" font-size="20" fill="#9aa7b2">Bronze, silver and gold on Parquet and DuckDB, with late data,</text><text x="96" y="238" class="sans" font-size="20" fill="#9aa7b2">partition pruning and compaction measured</text>
+  <rect x="96" y="262" width="71" height="28" rx="14" fill="#161b22" stroke="#3fb950" stroke-opacity="0.45"/><text x="132" y="281" text-anchor="middle" class="mono" font-size="13" fill="#c9d1d9">Python</text><rect x="177" y="262" width="71" height="28" rx="14" fill="#161b22" stroke="#3fb950" stroke-opacity="0.45"/><text x="213" y="281" text-anchor="middle" class="mono" font-size="13" fill="#c9d1d9">DuckDB</text><rect x="258" y="262" width="79" height="28" rx="14" fill="#161b22" stroke="#3fb950" stroke-opacity="0.45"/><text x="298" y="281" text-anchor="middle" class="mono" font-size="13" fill="#c9d1d9">Parquet</text>
+  <g><path d="M880 180 C940 180 950 110 1000 110 C1060 110 1080 180 1140 180" class="flow" stroke="#3fb950" stroke-width="3" fill="none"/><path d="M880 180 C940 180 950 250 1000 250 C1060 250 1080 180 1140 180" class="flow" stroke="#3fb950" stroke-opacity=".6" stroke-width="3" fill="none"/><g class="fade d1"><circle cx="880" cy="180" r="30" fill="#161b22" stroke="#3fb950" stroke-width="2"/><text x="880" y="232" text-anchor="middle" class="mono" font-size="11" fill="#8b949e">SOURCE</text></g><g class="fade d2"><circle cx="1000" cy="110" r="30" fill="#161b22" stroke="#3fb950" stroke-width="2"/><text x="1000" y="162" text-anchor="middle" class="mono" font-size="11" fill="#8b949e">PROCESS</text></g><g class="fade d3"><circle cx="1000" cy="250" r="30" fill="#161b22" stroke="#3fb950" stroke-width="2"/><text x="1000" y="302" text-anchor="middle" class="mono" font-size="11" fill="#8b949e">STORE</text></g><g class="fade d4"><circle cx="1140" cy="180" r="30" fill="#161b22" stroke="#3fb950" stroke-width="2"/><text x="1140" y="232" text-anchor="middle" class="mono" font-size="11" fill="#8b949e">SERVE</text></g><circle r="6" fill="#f5fbff"><animateMotion dur="2.4s" repeatCount="indefinite" path="M880 180 C940 180 950 110 1000 110 C1060 110 1080 180 1140 180"/></circle><circle r="6" fill="#f5fbff"><animateMotion dur="3.1s" repeatCount="indefinite" path="M880 180 C940 180 950 250 1000 250 C1060 250 1080 180 1140 180"/></circle></g>
+</svg>
