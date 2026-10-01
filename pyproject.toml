@@ -6,7 +6,11 @@ readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Silvano Moraes de Souza" }]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "duckdb>=1.1",
+    "pyarrow>=16",
+    "shopflow-datagen",
+]
 
 [dependency-groups]
 dev = [
@@ -36,3 +40,16 @@ ignore = ["PLR0913", "PLR2004"]
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q --cov=mini_lakehouse --cov-report=term-missing"
+
+[tool.uv.sources]
+shopflow-datagen = { git = "https://github.com/silvano-moraes-de-souza/shopflow-datagen" }
+
+[project.scripts]
+lakehouse = "mini_lakehouse.cli:main"
+
+[tool.ruff.lint.per-file-ignores]
+# Long lines here are SQL strings; wrapping them hurts more than it helps.
+"bench/run.py" = ["E501"]
+"tests/*" = ["E501"]
+"src/mini_lakehouse/cli.py" = ["E501"]
+"src/mini_lakehouse/landing.py" = ["E501"]
