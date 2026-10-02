@@ -138,3 +138,14 @@ def test_bronze_keeps_every_file_of_a_partition(source, tmp_path):
         ][0]
         == landed
     )
+
+
+def test_gold_money_columns_are_integers(lake):
+    path, _ = lake
+    for table in ("daily_sales", "category_monthly"):
+        types = dict(
+            _q(
+                f"SELECT column_name, column_type FROM (DESCRIBE SELECT * FROM '{(path / 'gold' / table).as_posix()}.parquet')"
+            )
+        )
+        assert types["revenue_cents"] == "BIGINT", table

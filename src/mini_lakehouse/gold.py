@@ -6,6 +6,9 @@
 Revenue counts orders whose current status is shipped or delivered: a canceled or
 returned order earns nothing. The same rule is applied to the source in
 ``reconcile`` so the two can be compared to the cent.
+
+Money columns are cast to BIGINT: DuckDB sums BIGINT into HUGEINT, which Parquet
+can only store as a double.
 """
 
 from __future__ import annotations
@@ -21,7 +24,8 @@ EARNING = "('shipped', 'delivered')"
 DAILY_SALES = f"""
 SELECT CAST(ordered_at - {LOCAL} AS DATE) AS day, channel,
        count(*) AS orders,
-       sum(total_cents) FILTER (WHERE status IN {EARNING}) AS revenue_cents,
+       CAST(coalesce(sum(total_cents) FILTER (WHERE status IN {EARNING}), 0) AS BIGINT)
+           AS revenue_cents,
        count(*) FILTER (WHERE status = 'canceled') AS canceled,
        count(*) FILTER (WHERE status = 'returned') AS returned
 FROM read_parquet('{{silver}}/orders/*/*.parquet')
@@ -30,7 +34,8 @@ GROUP BY ALL ORDER BY day, channel
 
 CATEGORY_MONTHLY = f"""
 SELECT strftime(o.ordered_at - {LOCAL}, '%Y-%m') AS month, p.category,
-       sum(i.quantity) AS units, sum(i.line_total_cents) AS revenue_cents
+       CAST(sum(i.quantity) AS BIGINT) AS units,
+       CAST(sum(i.line_total_cents) AS BIGINT) AS revenue_cents
 FROM read_parquet('{{silver}}/order_items/*/*.parquet') i
 JOIN read_parquet('{{silver}}/orders/*/*.parquet') o USING (order_id)
 JOIN read_parquet('{{silver}}/products/data.parquet') p USING (product_id)
